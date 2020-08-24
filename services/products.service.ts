@@ -16,11 +16,6 @@ const ProductsService: ServiceSchema = {
       rest: 'POST /products',
       auth: [],
     },
-    test: {
-      handler() {
-        throw new Error('Yeah');
-      },
-    },
   },
 };
 
