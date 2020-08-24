@@ -1,0 +1,18 @@
+{
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/node_modules/": true,
+    "**/coverage/": true,
+    "**/npm-debug.log": true,
+    "**/build": true,
+    "**/.env": false
+  },
+  "editor.formatOnSave": true,
+  "eslint.format.enable": true,
+  "cSpell.words": [
+    "Openapi",
+    "knawat",
+    "mixins",
+    "moleculer"
+  ]
+}
