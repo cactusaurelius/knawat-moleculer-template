@@ -1,7 +1,9 @@
-[![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
-
-# moleculer-knawat-template
-This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
+# Moleculer TypeScript Template by Knawat
+We built our own template in Knawat and decided to share it with community as a full featuered Moleculer TypeScript template:
+1. One command to run, build and hot reloaded using tsc-watch
+2. Using Shopify Eslint plugin
+3. OpenAPI Example ready
+4. Using Mongoose
 
 ## Usage
 Start the project with `npm run dev` command.
