@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f395d979637144eb85dec003a3346aaf)](https://www.codacy.com/gh/Knawat/knawat-moleculer-template?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Knawat/knawat-moleculer-template&amp;utm_campaign=Badge_Grade)
+
 # Moleculer TypeScript Template by Knawat
 We built our own template in Knawat and decided to share it with community as a full featuered Moleculer TypeScript template:
 - One command to run, build and hot reloaded using tsc-watch
