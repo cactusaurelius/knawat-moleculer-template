@@ -1,9 +1,10 @@
 # Moleculer TypeScript Template by Knawat
 We built our own template in Knawat and decided to share it with community as a full featuered Moleculer TypeScript template:
-1. One command to run, build and hot reloaded using tsc-watch
-2. Using Shopify Eslint plugin
-3. OpenAPI Example ready
-4. Using Mongoose
+- One command to run, build and hot reloaded using tsc-watch
+- Using Shopify Eslint plugin
+- OpenAPI Example ready
+- Using Mongoose
+- Deployment template files for Docker, AppEngine and more later
 
 ## Usage
 Start the project with `npm run dev` command.
