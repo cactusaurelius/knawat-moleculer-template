@@ -13,7 +13,6 @@ const ProductsService: ServiceSchema = {
    */
   actions: {
     create: {
-      rest: 'POST /products',
       auth: [],
     },
   },
