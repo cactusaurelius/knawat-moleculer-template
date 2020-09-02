@@ -19,27 +19,29 @@
   "devDependencies": {
     "@shopify/eslint-plugin": "^37.0.1",
     "@types/jest": "^25.1.4",
+    "@types/lodash": "^4.14.161",
     "@types/mongoose": "^5.7.36",
     "@types/node": "^13.9.8",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "eslint": "^7.7.0",
     "eslint-plugin-import": "^2.22.0",
-    "ts-node": "^8.6.2",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
     "moleculer-repl": "^0.6.2",
     "prettier": "^2.0.5",
     "ts-jest": "^25.3.0",
+    "ts-node": "^8.6.2",
     "tsc-watch": "^4.2.9",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "moleculer-web": "^0.9.0",
+    "lodash": "^4.17.20",
+    "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.9",
     "moleculer-db-adapter-mongoose": "^0.8.7",
-    "mongoose": "^5.10.0",
-    "moleculer": "^0.14.0"
+    "moleculer-web": "^0.9.0",
+    "mongoose": "^5.10.0"
   },
   "engines": {
     "node": ">= 12.x.x"
