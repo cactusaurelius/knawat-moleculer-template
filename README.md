@@ -1,7 +1,12 @@
-[![Moleculer](https://badgen.net/badge/Powered%20by/Moleculer/0e83cd)](https://moleculer.services)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f395d979637144eb85dec003a3346aaf)](https://www.codacy.com/gh/Knawat/knawat-moleculer-template?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Knawat/knawat-moleculer-template&amp;utm_campaign=Badge_Grade)
 
-# moleculer-knawat-template
-This is a [Moleculer](https://moleculer.services/)-based microservices project. Generated with the [Moleculer CLI](https://moleculer.services/docs/0.14/moleculer-cli.html).
+# Moleculer TypeScript Template by Knawat
+We built our own template in Knawat and decided to share it with community as a full featuered Moleculer TypeScript template:
+- One command to run, build and hot reloaded using tsc-watch
+- Using Shopify Eslint plugin
+- OpenAPI Example ready
+- Using Mongoose
+- Deployment template files for Docker, AppEngine and more later
 
 ## Usage
 Start the project with `npm run dev` command.
@@ -27,8 +32,8 @@ In the terminal, try the following commands:
 
 ## Useful links
 
-* Moleculer website: https://moleculer.services/
-* Moleculer Documentation: https://moleculer.services/docs/0.14/
+- Moleculer website: https://moleculer.services/
+- Moleculer Documentation: https://moleculer.services/docs/0.14/
 
 ## NPM scripts
 
