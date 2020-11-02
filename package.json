@@ -22,7 +22,7 @@
     "@types/jest": "^25.1.4",
     "@types/lodash": "^4.14.161",
     "@types/mongoose": "^5.7.36",
-    "@types/node": "^12.19.3",
+    "@types/node": "^13.9.8",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "dotenv": "^8.2.0",
