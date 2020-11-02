@@ -4,6 +4,7 @@
   "description": "My Moleculer-based microservices project",
   "scripts": {
     "build": "tsc --build tsconfig.json",
+    "dev:local": "ts-node ./node_modules/moleculer/bin/moleculer-runner.js --envfile ./docker/development/.env --hot --repl --config moleculer.config.ts services/**/*.service.ts",
     "dev": "npm run lint && tsc-watch --onFirstSuccess \"env $(cat ./docker/development/.env) ts-node ./node_modules/moleculer/bin/moleculer-runner.js --hot --repl --config moleculer.config.ts services/**/*.service.ts\"",
     "start": "moleculer-runner",
     "cli": "moleculer connect TCP",
@@ -17,21 +18,22 @@
   ],
   "author": "",
   "devDependencies": {
-    "@shopify/eslint-plugin": "^37.0.1",
+    "@shopify/eslint-plugin": "^39.0.0",
     "@types/jest": "^25.1.4",
     "@types/lodash": "^4.14.161",
     "@types/mongoose": "^5.7.36",
-    "@types/node": "^13.9.8",
+    "@types/node": "^12.19.3",
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
-    "eslint": "^7.7.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.9.0",
     "eslint-plugin-import": "^2.22.0",
     "jest": "^25.1.0",
     "jest-cli": "^25.1.0",
     "moleculer-repl": "^0.6.2",
     "prettier": "^2.0.5",
     "ts-jest": "^25.3.0",
-    "ts-node": "^8.6.2",
+    "ts-node": "^8.10.1",
     "tsc-watch": "^4.2.9",
     "typescript": "^3.9.7"
   },
@@ -39,9 +41,10 @@
     "lodash": "^4.17.20",
     "moleculer": "^0.14.0",
     "moleculer-db": "^0.8.9",
-    "moleculer-db-adapter-mongoose": "^0.8.7",
+    "moleculer-db-adapter-mongo": "^0.4.10",
     "moleculer-web": "^0.9.0",
-    "mongoose": "^5.10.0"
+    "mongoose": "^5.10.0",
+    "openapi-types": "^7.0.1"
   },
   "engines": {
     "node": ">= 12.x.x"

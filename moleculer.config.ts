@@ -1,11 +1,6 @@
 'use strict';
 
-import {
-  BrokerOptions,
-  Errors,
-  MetricRegistry,
-  ServiceBroker,
-} from 'moleculer';
+import { BrokerOptions, Errors, MetricRegistry } from 'moleculer';
 
 /**
  * Moleculer ServiceBroker configuration file
@@ -65,7 +60,7 @@ const brokerConfig: BrokerOptions = {
   // More info: https://moleculer.services/docs/0.14/networking.html
   // Note: During the development, you don't need to define it because all services will be loaded locally.
   // In production you can set it via `TRANSPORTER=nats://localhost:4222` environment variable.
-  transporter: null,
+  transporter: 'TCP',
 
   // Define a cacher.
   // More info: https://moleculer.services/docs/0.14/caching.html
@@ -77,7 +72,7 @@ const brokerConfig: BrokerOptions = {
   serializer: 'JSON',
 
   // Number of milliseconds to wait before reject a request with a RequestTimeout error. Disabled: 0
-  requestTimeout: 10 * 1000,
+  requestTimeout: 60 * 1000,
 
   // Retry policy settings. More info: https://moleculer.services/docs/0.14/fault-tolerance.html#Retry
   retryPolicy: {
@@ -159,19 +154,43 @@ const brokerConfig: BrokerOptions = {
 
   // Enable/disable built-in metrics function. More info: https://moleculer.services/docs/0.14/metrics.html
   metrics: {
-    enabled: false,
+    enabled: Boolean(process.env.METRICS_ENABLED) || false,
     // Available built-in reporters: "Console", "CSV", "Event", "Prometheus", "Datadog", "StatsD"
     reporter: {
-      type: '',
+      type: process.env.METRICS_TYPE || 'Console',
+      options: {
+        // HTTP port
+        port: 3030,
+        // HTTP URL path
+        path: '/metrics',
+        // Default labels which are appended to all metrics labels
+        defaultLabels: (registry: MetricRegistry) => ({
+          namespace: registry.broker.namespace,
+          nodeID: registry.broker.nodeID,
+        }),
+      },
     },
   },
 
+  // Watch the loaded services and hot reload if they changed. You can also enable it in Moleculer Runner with `--hot` argument
+  hotReload: true,
+
   // Enable built-in tracing function. More info: https://moleculer.services/docs/0.14/tracing.html
   tracing: {
-    enabled: true,
+    enabled: Boolean(process.env.TRACING_ENABLED) || false,
     // Available built-in exporters: "Console", "Datadog", "Event", "EventLegacy", "Jaeger", "Zipkin"
     exporter: {
-      type: 'Console',
+      type: process.env.TRACING_TYPE || 'Console',
+      options: {
+        // Custom logger
+        logger: null,
+        // Using colors
+        colors: true,
+        // Width of row
+        width: 100,
+        // Gauge width in the row
+        gaugeWidth: 40,
+      },
     },
   },
 
