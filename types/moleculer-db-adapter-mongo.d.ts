@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/class-name-casing */
-
 export = index;
 declare class index {
   public uri: any;
