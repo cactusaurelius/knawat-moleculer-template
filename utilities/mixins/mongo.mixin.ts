@@ -12,7 +12,10 @@ export default (collection: string): ServiceSchema => {
   return {
     name: 'mongo_service',
     mixins: [DbService],
-    adapter: new MongoAdapter(process.env.MONGO_URI, { useNewUrlParser: true }),
+    adapter: new MongoAdapter(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     collection,
   };
 };
