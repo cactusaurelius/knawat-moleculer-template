@@ -51,7 +51,7 @@ const ProductsService: ServiceSchema = {
       return newObj;
     },
     /**
-     * Sanitizes Proudct entry data
+     * Sanitizes Product entry data
      *
      * @param {*} params
      * @returns Product

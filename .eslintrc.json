@@ -8,23 +8,17 @@
     "project": "tsconfig.json"
   },
   "rules": {
-    "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/naming-convention": [
       "error",
       {
         "selector": "parameterProperty",
-        "format": [
-          "snake_case"
-        ]
+        "format": ["snake_case"]
       }
     ],
     "lines-around-comment": "off",
     "import/no-unresolved": "off",
     "import/no-anonymous-default-export": "off",
-    "babel/object-curly-spacing": [
-      "error",
-      "always"
-    ],
+    "babel/object-curly-spacing": ["error", "always"],
     "no-warning-comments": "off",
     "promise/no-nesting": "off",
     "require-atomic-updates": "off",
