@@ -9,3 +9,5 @@ acme.json
 *.js
 *.js.map
 build
+openapi.json
+openapi-private.json
