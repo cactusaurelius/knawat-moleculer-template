@@ -10,9 +10,12 @@
   "editor.formatOnSave": true,
   "eslint.format.enable": true,
   "cSpell.words": [
+    "APIV",
     "Openapi",
     "knawat",
+    "middlewares",
     "mixins",
-    "moleculer"
+    "moleculer",
+    "shopify"
   ]
 }

@@ -1,9 +1,11 @@
 import fs from 'fs';
+import { ServerResponse } from 'http';
 
 import _ from 'lodash';
-import { ActionSchema, Errors, ServiceSchema } from 'moleculer';
+import { ActionSchema, Errors, ServiceSchema, Context } from 'moleculer';
 
-import pkg from '../package.json';
+import { OpenAPIAction, OpenAPIV3Document } from '../../types/OpenAPI';
+import pkg from '../../package.json';
 
 const { MoleculerServerError } = Errors;
 
@@ -14,7 +16,10 @@ const { MoleculerServerError } = Errors;
  * @returns {ServiceSchema}
  */
 export function OpenApiMixin(): ServiceSchema {
-  const mixinOptions: { schema: any; routeOptions: { path: string } } = {
+  const mixinOptions: {
+    schema: OpenAPIV3Document;
+    routeOptions: { path: string };
+  } = {
     routeOptions: {
       path: '/openapi',
     },
@@ -22,8 +27,8 @@ export function OpenApiMixin(): ServiceSchema {
   };
 
   let shouldUpdateSchema = true;
-  let schema: any = null;
-  let schemaPrivate: any = null;
+  let schema: OpenAPIV3Document = null;
+  let schemaPrivate: OpenAPIV3Document = null;
 
   return {
     name: 'openapi',
@@ -80,6 +85,11 @@ export function OpenApiMixin(): ServiceSchema {
             // https://swagger.io/specification/#infoObject
             info: {
               title: `${pkg.name.toUpperCase()} API Documentation`,
+              'x-logo': {
+                url: 'https://knawat.com/wp-content/uploads/2017/12/logo.png',
+                backgroundColor: '#ef6530',
+                altText: 'Knawat logo',
+              },
               version: pkg.version,
               termsOfService: 'https://knawat.com/terms-and-conditions/',
               contact: {
@@ -206,10 +216,10 @@ export function OpenApiMixin(): ServiceSchema {
               const def: any = _.cloneDeep(action.openapi);
               if (def?.length > 0) {
                 def.forEach((defElement: any) => {
-                  let method: any;
-                  let routePath: any;
+                  let method: string;
+                  let routePath: string;
                   if (defElement.$path) {
-                    const path: string = defElement.$path.split(' ');
+                    const path: any = defElement.$path.split(' ');
                     method = path[0].toLowerCase();
                     routePath = path[1];
                     delete defElement.$path;
@@ -218,10 +228,10 @@ export function OpenApiMixin(): ServiceSchema {
                   _.set(res.paths, [routePath, method], defElement);
                 });
               } else {
-                let method: any;
-                let routePath: any;
+                let method: string;
+                let routePath: string;
                 if (def.$path) {
-                  const path = def.$path.split(' ');
+                  const path: any = def.$path.split(' ');
                   method = path[0].toLowerCase();
                   routePath = path[1];
                   delete def.$path;
@@ -272,7 +282,10 @@ export function OpenApiMixin(): ServiceSchema {
         },
 
         aliases: {
-          'GET /openapi.json': function (req: any, res: any) {
+          'GET /openapi.json': function (
+            req: { $ctx: Context<unknown, { responseType: string }> },
+            res: ServerResponse
+          ) {
             // Regenerate static files
             this.generateOpenApiFiles();
 
@@ -282,7 +295,7 @@ export function OpenApiMixin(): ServiceSchema {
             return this.sendResponse(req, res, schema);
           },
           'GET /openapi-private.json': [
-            (req: any, res: any) => {
+            (req: any, res: ServerResponse) => {
               const auth = { login: 'your-login', password: 'your-password' };
 
               // parse login and password from headers
