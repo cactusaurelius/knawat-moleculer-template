@@ -8,9 +8,9 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.json",
-    "dev:local": "ts-node ./node_modules/moleculer/bin/moleculer-runner.js --envfile ./docker/development/.env --hot --repl --config moleculer.config.ts services/**/*.service.ts",
-    "dev": "npm run lint && tsc-watch --onFirstSuccess \"env $(cat ./docker/development/.env) ts-node ./node_modules/moleculer/bin/moleculer-runner.js --hot --repl --config moleculer.config.ts services/**/*.service.ts\"",
-    "start": "moleculer-runner",
+    "dev:start": "ts-node ./node_modules/moleculer/bin/moleculer-runner.js --envfile ./deploy/docker/.env --hot --repl --config moleculer.config.ts services/**/*.service.ts",
+    "dev": "npm run lint && tsc-watch --onFirstSuccess \"npm run dev:start\"",
+    "start": "moleculer-runner --config moleculer.config.js",
     "cli": "moleculer connect TCP",
     "ci": "jest --watch",
     "test": "jest --coverage",
