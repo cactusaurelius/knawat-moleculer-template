@@ -14,7 +14,11 @@
     "cli": "moleculer connect TCP",
     "ci": "jest --watch",
     "test": "jest --coverage",
-    "lint": "eslint --ext .ts ."
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --ext .ts . --fix",
+    "prettier": "prettier services/*.ts utilities/**/*.ts *.ts --write",
+    "dc:up": "docker-compose up --build -d",
+    "dc:down": "docker-compose down"
   },
   "keywords": [
     "microservices",
@@ -22,7 +26,6 @@
   ],
   "devDependencies": {
     "@shopify/eslint-plugin": "^39.0.2",
-    "@types/jest": "^26.0.15",
     "@types/lodash": "^4.14.164",
     "@types/mongoose": "^5.7.37",
     "@types/node": "^12.19.3",
@@ -39,6 +42,8 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
+    "@moleculer/lab": "^0.6.0",
+    "ioredis": "^4.19.2",
     "lodash": "^4.17.20",
     "moleculer": "^0.14.11",
     "moleculer-db": "^0.8.10",

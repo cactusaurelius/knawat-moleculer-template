@@ -1,4 +1,3 @@
-// import {IncomingMessage} from "http";
 import { ServiceSchema } from 'moleculer';
 import ApiGateway from 'moleculer-web';
 
