@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "*": [
-        "types/*"
-      ]
+      "*": ["types/*"]
     },
     "esModuleInterop": true,
     "noImplicitAny": true,
@@ -11,16 +9,11 @@
     "moduleResolution": "node",
     "pretty": true,
     "resolveJsonModule": true,
-    "types": [
-      "node"
-    ],
+    "types": ["jest", "node"],
     "sourceMap": true,
     "target": "es2019",
     "outDir": "./build",
     "baseUrl": "./"
   },
-  "exclude": [
-    "node_modules",
-    "test"
-  ]
+  "exclude": ["node_modules", "test"]
 }

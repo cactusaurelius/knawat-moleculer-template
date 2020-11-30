@@ -1,8 +1,8 @@
-// jest.config.ts
 import type { Config } from '@jest/types';
 
 // Sync object
 const config: Config.InitialOptions = {
+  setupFiles: ['<rootDir>/test/environment-setup.ts'],
   coverageDirectory: '<rootDir>/coverage',
   testEnvironment: 'node',
   moduleFileExtensions: ['ts', 'tsx', 'js'],
