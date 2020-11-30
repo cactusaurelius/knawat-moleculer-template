@@ -44,10 +44,10 @@
     "ts-node": "^9.0.0",
     "tsc-watch": "^4.2.9",
     "typescript": "^4.0.5",
-    "supertest": "^6.0.1"
+    "supertest": "^6.0.1",
+    "@jest/types": "^26.6.2"
   },
   "dependencies": {
-    "@jest/types": "^26.6.2",
     "@moleculer/lab": "^0.6.0",
     "ioredis": "^4.19.2",
     "lodash": "^4.17.20",
