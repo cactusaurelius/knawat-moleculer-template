@@ -10,6 +10,7 @@ import {
   GenericObject,
 } from 'moleculer';
 
+import { IncomingRequest } from '../types';
 import { OpenAPIAction, OpenAPIV3Document } from '../../types/OpenAPI';
 import pkg from '../../package.json';
 
@@ -90,7 +91,7 @@ export function OpenApiMixin(): ServiceSchema {
         }: {
           bearerOnly: boolean;
         }
-      ): Promise<GenericObject> {
+      ): Promise<OpenAPIV3Document> {
         try {
           const res = _.defaultsDeep(mixinOptions.schema, {
             openapi: '3.0.3',
@@ -232,7 +233,9 @@ export function OpenApiMixin(): ServiceSchema {
               }
 
               // console.log(action.openapi.security[0].bearerAuth);
-              const def: GenericObject = _.cloneDeep(action.openapi);
+              const def: OpenAPIAction & OpenAPIAction[] = _.cloneDeep(
+                action.openapi
+              );
               if (def?.length > 0) {
                 def.forEach((defElement: OpenAPIAction) => {
                   let method: string;
@@ -302,7 +305,7 @@ export function OpenApiMixin(): ServiceSchema {
 
         aliases: {
           '/openapi.json': async function (
-            req: { $ctx: Context<unknown, { responseType: string }> },
+            req: IncomingRequest,
             res: ServerResponse
           ) {
             const ctx = req.$ctx;
@@ -314,7 +317,7 @@ export function OpenApiMixin(): ServiceSchema {
             return this.sendResponse(req, res, schema);
           },
           '/openapi-private.json': async function (
-            req: GenericObject,
+            req: IncomingRequest,
             res: ServerResponse
           ): Promise<GenericObject> {
             const auth = {
