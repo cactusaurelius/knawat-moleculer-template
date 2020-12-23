@@ -5,7 +5,7 @@
  * @interface Product
  */
 export interface Product {
-  name?: string;
+  name: string;
   category?: string;
   price: number;
 }

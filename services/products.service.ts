@@ -4,14 +4,16 @@ import { ProductsOpenapi, ProductsValidation } from '../utilities/mixins';
 import DbService from '../utilities/mixins/mongo.mixin';
 import { MpError } from '../utilities/adapters';
 import { Product } from '../utilities/types';
+import { ProductDocument, ProductModel } from '../utilities/models';
 
 const ProductsService: ServiceSchema = {
   name: 'products',
-  mixins: [DbService('Products'), ProductsValidation, ProductsOpenapi],
+  mixins: [
+    new DbService('Products').start<ProductDocument>(ProductModel),
+    ProductsValidation,
+    ProductsOpenapi,
+  ],
 
-  /**
-   * Actions
-   */
   actions: {
     create: {
       rest: 'POST /',
