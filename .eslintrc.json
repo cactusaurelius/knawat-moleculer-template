@@ -27,6 +27,7 @@
     "no-return-await": "off",
     "no-throw-literal": "off",
     "no-fallthrough": "warn",
-    "@typescript-eslint/keyword-spacing": "off"
+    "@typescript-eslint/keyword-spacing": "off",
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^_" }]
   }
 }
