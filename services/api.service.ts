@@ -185,4 +185,4 @@ const TheService: ServiceSchema = {
   },
 };
 
-export = TheService;
+export default TheService;

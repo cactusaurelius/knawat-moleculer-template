@@ -69,4 +69,4 @@ const ProductsService: ServiceSchema = {
   },
 };
 
-export = ProductsService;
+export default ProductsService;

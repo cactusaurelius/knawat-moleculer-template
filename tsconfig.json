@@ -6,6 +6,7 @@
     "esModuleInterop": true,
     "noImplicitAny": true,
     "module": "commonjs",
+    "removeComments": true,
     "moduleResolution": "node",
     "pretty": true,
     "resolveJsonModule": true,
