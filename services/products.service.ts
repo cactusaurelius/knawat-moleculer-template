@@ -1,4 +1,4 @@
-import { ServiceSchema, GenericObject } from 'moleculer';
+import { ServiceSchema, GenericObject, Context } from 'moleculer';
 
 import { ProductsOpenapi, ProductsValidation } from '../utilities/mixins';
 import DbService from '../utilities/mixins/mongo.mixin';
@@ -19,7 +19,7 @@ const ProductsService: ServiceSchema = {
       rest: 'POST /',
       auth: [],
       cache: {},
-      async handler(ctx): Promise<Product> {
+      async handler(ctx: Context<Product>) {
         return this.adapter
           .insert(this.createProductSanitize(ctx.params))
           .then((res: Product) => {
