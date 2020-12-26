@@ -122,6 +122,12 @@ const TheService: ServiceSchema = {
     },
   },
 
+  actions: {
+    listAliases: {
+      visibility: 'public',
+    },
+  },
+
   methods: {
     /**
 				 * Authenticate the request. It check the `Authorization` token value in the request header.
@@ -185,4 +191,4 @@ const TheService: ServiceSchema = {
   },
 };
 
-export = TheService;
+export default TheService;
