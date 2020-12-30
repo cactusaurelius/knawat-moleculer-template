@@ -1,1 +1,1 @@
-export * from './mpError';
+export * from './error';

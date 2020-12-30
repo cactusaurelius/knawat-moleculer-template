@@ -2,7 +2,7 @@ import { Errors } from 'moleculer';
 
 const { MoleculerError } = Errors;
 
-export class MpError extends MoleculerError {
+export class MyError extends MoleculerError {
   constructor(
     name: string,
     message: string,

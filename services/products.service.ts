@@ -2,7 +2,7 @@ import { ServiceSchema, GenericObject, Context } from 'moleculer';
 
 import { ProductsOpenapi, ProductsValidation } from '../utilities/mixins';
 import DbService from '../utilities/mixins/mongo.mixin';
-import { MpError } from '../utilities/adapters';
+import { MyError } from '../utilities/adapters';
 import { Product } from '../utilities/types';
 import { ProductDocument, ProductModel } from '../utilities/models';
 
@@ -27,12 +27,12 @@ const ProductsService: ServiceSchema = {
           })
           .catch((err: GenericObject) => {
             if (err.name === 'MoleculerError') {
-              throw new MpError('Products Service', err.message, err.code);
+              throw new MyError('Products Service', err.message, err.code);
             }
             if (err.name === 'MongoError' && err.code === 11000) {
-              throw new MpError('Products Service', 'Duplicate Id!', 422);
+              throw new MyError('Products Service', 'Duplicate Id!', 422);
             }
-            throw new MpError('Products Service', String(err), 500);
+            throw new MyError('Products Service', String(err), 500);
           });
       },
     },
