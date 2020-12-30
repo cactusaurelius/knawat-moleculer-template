@@ -11,7 +11,7 @@ const { MoleculerClientError, ValidationError } = Errors;
 const ProductsService: ServiceSchema = {
   name: 'products',
   mixins: [
-    new DbService('products').start<ProductDocument>(ProductModel),
+    new DbService('Products').start<ProductDocument>(ProductModel),
     ProductsValidation,
     ProductsOpenapi,
   ],
@@ -20,8 +20,6 @@ const ProductsService: ServiceSchema = {
    * Default settings
    */
   settings: {
-    // Base path
-    rest: 'products/',
     fields: ['_id', 'name', 'category', 'price'],
   },
 
@@ -30,7 +28,7 @@ const ProductsService: ServiceSchema = {
    */
   actions: {
     /**
-     * Create a new record.
+     * Create a new entity.
      * Auth is required!
      *
      * @actions
@@ -59,7 +57,7 @@ const ProductsService: ServiceSchema = {
     },
 
     /**
-     * Update a record.
+     * Update an entity.
      * Auth is required!
      *
      * @actions
@@ -74,7 +72,7 @@ const ProductsService: ServiceSchema = {
       ): Promise<{ product: Product }> {
         const product = ctx.params;
 
-        // Validate bearer only updating his record
+        // Bearer only update his entity
         if (
           product._id &&
           ctx.meta.user._id &&
@@ -90,12 +88,12 @@ const ProductsService: ServiceSchema = {
     },
 
     /**
-     * List records with pagination.
+     * List entities with pagination.
      * Auth is required!
      *
      * @actions
      *
-     * @returns {Object} List of records
+     * @returns {Object} List of entities
      */
     list: {
       auth: ['Basic'],
@@ -109,13 +107,13 @@ const ProductsService: ServiceSchema = {
     },
 
     /**
-     * Get a record by id
+     * Get an entity by id
      * Auth is required!
      *
      * @actions
-     * @param {String} id - Product id
+     * @param {String} id - Entity id
      *
-     * @returns {Object} Product entity
+     * @returns {Object} The entity
      */
     get: {
       auth: ['Basic', 'Bearer'],
@@ -129,7 +127,7 @@ const ProductsService: ServiceSchema = {
       ): Promise<{ product: Product }> {
         const { id } = ctx.params;
 
-        // Validate bearer only getting his record
+        // Bearer only get his entity
         if (ctx.meta.user._id && id !== ctx.meta.user._id) {
           throw new MoleculerClientError("Can't update this entity", 401);
         }
