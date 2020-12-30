@@ -18,8 +18,8 @@
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
     "prettier": "prettier services/*.ts utilities/**/*.ts *.ts --write",
-    "dc:up": "docker-compose up --build -d",
-    "dc:down": "docker-compose down"
+    "remove:web": "npm remove @types/lodash @types/supertest openapi-types supertest lodash moleculer-web & rm services/api.service.ts utilities/mixins/openapi.mixin.ts",
+    "remove:db": "npm remove @types/mongoose moleculer-db moleculer-db-adapter-mongoose mongoose & rm utilities/models utilities/mixins/mongo.mixin.ts"
   },
   "keywords": [
     "microservices",
