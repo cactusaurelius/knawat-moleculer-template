@@ -10,7 +10,7 @@ import { ActionSchema, Context, GenericObject } from 'moleculer';
  */
 export interface IncomingRequest extends IncomingMessage {
   $params: GenericObject;
-  $meta?: GenericObject;
+  $meta?: MetaParams<unknown>;
   $endpoint: {
     action: {
       auth: string;
@@ -25,4 +25,17 @@ export interface IncomingRequest extends IncomingMessage {
       $statusCode: number;
     }
   >;
+}
+
+/**
+ * MetaParams
+ * @exports
+ * @interface MetaParams
+ */
+export interface MetaParams<T> {
+  $statusCode?: number;
+  $statusMessage?: string;
+  $responseType?: string;
+  token?: string;
+  user?: T;
 }
