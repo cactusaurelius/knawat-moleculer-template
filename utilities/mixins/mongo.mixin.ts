@@ -1,7 +1,14 @@
-import { Context, Service, ServiceSchema } from 'moleculer';
+import { Context, Service, ServiceSchema, ActionSchema } from 'moleculer';
 import mongoose, { Document } from 'mongoose';
 import DbService from 'moleculer-db';
 import MongooseAdapter from 'moleculer-db-adapter-mongoose';
+
+// Workaround to hide built in routes from auto alias
+Object.keys((DbService as Partial<ServiceSchema>).actions).map(action => {
+  ((DbService as Partial<ServiceSchema>).actions[
+    action
+  ] as ActionSchema).visibility = 'public';
+});
 
 export default class Connection
   implements Partial<ServiceSchema>, ThisType<Service> {
@@ -34,7 +41,7 @@ export default class Connection
          * @param {any} json
          * @param {Context} ctx
          */
-        entityChanged: async (type: string, json: any, ctx: Context) => {
+        entityChanged: async (type: string, json: unknown, ctx: Context) => {
           await ctx.broadcast(this.cacheCleanEventName);
         },
       },
