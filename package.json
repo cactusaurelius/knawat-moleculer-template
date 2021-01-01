@@ -27,6 +27,7 @@
   ],
   "devDependencies": {
     "@jest/types": "^26.6.2",
+    "@knawat/types": "latest",
     "@shopify/eslint-plugin": "^39.0.3",
     "@types/jest": "^26.0.19",
     "@types/lodash": "^4.14.165",
