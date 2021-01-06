@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.json",
     "dev": "ts-node ./node_modules/moleculer/bin/moleculer-runner.js --envfile ./deploy/docker/.env --hot --repl --config moleculer.config.ts services/**/*.service.ts",
-    "start": "moleculer-runner --config moleculer.config.js",
+    "start": "moleculer-runner --config build/moleculer.config.js",
     "cli": "moleculer connect TCP",
     "ci": "NODE_ENV=test jest --watch",
     "test": "NODE_ENV=test jest --coverage",
