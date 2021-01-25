@@ -1,5 +1,4 @@
 import Moleculer from 'moleculer';
-// import { ServiceSchema, Context, Errors, GenericObject } from 'moleculer';
 
 import { Service, Action, Method } from 'moleculer-decorators';
 
