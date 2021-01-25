@@ -1,6 +1,5 @@
-import Moleculer from 'moleculer';
-
-import { Service, Action, Method } from 'moleculer-decorators';
+import { Service, Context, Errors, GenericObject } from 'moleculer';
+import { Service as DService, Action, Method } from 'moleculer-decorators';
 
 import { ProductsOpenapi, ProductsValidation } from '../utilities/mixins';
 import { ProductModel, ProductDocument } from '../utilities/models';
@@ -8,9 +7,9 @@ import DbService from '../utilities/mixins/mongo.mixin';
 import { Product, MetaParams } from '../utilities/types';
 import { MyError } from '../utilities/adapters';
 
-const { MoleculerClientError, ValidationError } = Moleculer.Errors;
+const { MoleculerClientError, ValidationError } = Errors;
 
-@Service({
+@DService({
   name: 'products',
   mixins: [
     new DbService('Products').start<ProductDocument>(ProductModel),
@@ -25,7 +24,7 @@ const { MoleculerClientError, ValidationError } = Moleculer.Errors;
     fields: ['_id', 'name', 'category', 'price'],
   },
 })
-export default class ProductsService extends Moleculer.Service {
+export default class ProductsService extends Service {
   /**
    * Create a new entity.
    * Auth is required!
@@ -39,7 +38,7 @@ export default class ProductsService extends Moleculer.Service {
     auth: ['Basic'],
     visibility: 'published',
   })
-  create(ctx: Moleculer.Context<Product>): Promise<{ product: Product }> {
+  create(ctx: Context<Product>): Promise<{ product: Product }> {
     const product = ctx.params;
 
     return this._create(ctx, product)
@@ -68,7 +67,7 @@ export default class ProductsService extends Moleculer.Service {
     visibility: 'published',
   })
   update(
-    ctx: Moleculer.Context<Partial<Product>, MetaParams<Product>>
+    ctx: Context<Partial<Product>, MetaParams<Product>>
   ): Promise<{ product: Product }> {
     const product = ctx.params;
 
@@ -98,7 +97,7 @@ export default class ProductsService extends Moleculer.Service {
     auth: ['Basic'],
     visibility: 'published',
   })
-  list(ctx: Moleculer.Context<any>) {
+  list(ctx: Context<any>) {
     if (ctx.params.search && !ctx.params.searchFields)
       ctx.params.searchFields = 'name';
     const params = this.sanitizeParams(ctx, ctx.params);
@@ -123,7 +122,7 @@ export default class ProductsService extends Moleculer.Service {
     },
   })
   get(
-    ctx: Moleculer.Context<{ id: string }, MetaParams<Product>>
+    ctx: Context<{ id: string }, MetaParams<Product>>
   ): Promise<{ product: Product }> {
     const { id } = ctx.params;
 
@@ -143,7 +142,7 @@ export default class ProductsService extends Moleculer.Service {
    * @param {Array} entities
    */
   @Method
-  transformResultList<T>({ rows, ...props }: Moleculer.GenericObject) {
+  transformResultList<T>({ rows, ...props }: GenericObject) {
     const products = rows
       .map(this.transformResultEntity)
       .filter((result: T[]) => result);

@@ -1,12 +1,12 @@
 import { IncomingMessage } from 'http';
 
-import Moleculer from 'moleculer';
-import { Service, Action, Method } from 'moleculer-decorators';
+import { Service, Context } from 'moleculer';
+import { Service as DService, Action, Method } from 'moleculer-decorators';
 import ApiGateway from 'moleculer-web';
 
 import { OpenApiMixin } from '../utilities/mixins';
 
-@Service({
+@DService({
   name: 'api',
   mixins: [ApiGateway, OpenApiMixin()],
   // More info about settings: https://moleculer.services/docs/0.14/moleculer-web.html
@@ -125,7 +125,7 @@ import { OpenApiMixin } from '../utilities/mixins';
     },
   },
 })
-export default class APIService extends Moleculer.Service {
+export default class APIService extends Service {
   @Action({
     visibility: 'public',
   })
@@ -145,7 +145,7 @@ export default class APIService extends Moleculer.Service {
    */
   @Method
   async authenticate(
-    ctx: Moleculer.Context,
+    ctx: Context,
     route: any,
     req: IncomingMessage
   ): Promise<any> {
@@ -188,19 +188,19 @@ export default class APIService extends Moleculer.Service {
    */
   @Method
   async authorize(
-    ctx: Moleculer.Context<
+    ctx: Context<
       any,
       {
         user: string;
       }
     >,
     route: Record<string, undefined>,
-    req: IncomingMessage
+    // TODO: clean
+    req: any // IncomingMessage
   ): Promise<any> {
     // Get the authenticated user.
     const user = ctx.meta.user;
     // It check the `auth` property in action schema.
-    // @ts-ignore
     if (req.$action.auth === 'required' && !user) {
       throw new ApiGateway.Errors.UnAuthorizedError('NO_RIGHTS', {
         error: 'Unauthorized',
