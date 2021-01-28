@@ -1,9 +1,12 @@
-import { ServiceSchema } from 'moleculer';
+import { IncomingMessage } from 'http';
+
+import { Service, Context } from 'moleculer';
+import { Service as DService, Action, Method } from 'moleculer-decorators';
 import ApiGateway from 'moleculer-web';
 
 import { OpenApiMixin } from '../utilities/mixins';
 
-const TheService: ServiceSchema = {
+@DService({
   name: 'api',
   mixins: [ApiGateway, OpenApiMixin()],
   // More info about settings: https://moleculer.services/docs/0.14/moleculer-web.html
@@ -34,32 +37,32 @@ const TheService: ServiceSchema = {
 
         aliases: {},
         /**
-					 * Before call hook. You can check the request.
-					 * @param {Context} ctx
-					 * @param {Object} route
-					 * @param {IncomingMessage} req
-					 * @param {ServerResponse} res
-					 * @param {Object} data
-					onBeforeCall(ctx: Context<any,{userAgent: string}>,
-					 route: object, req: IncomingMessage, res: ServerResponse) {
-					  Set request headers to context meta
-					  ctx.meta.userAgent = req.headers["user-agent"];
-					},
-					 */
+           * Before call hook. You can check the request.
+           * @param {Context} ctx
+           * @param {Object} route
+           * @param {IncomingMessage} req
+           * @param {ServerResponse} res
+           * @param {Object} data
+          onBeforeCall(ctx: Context<any,{userAgent: string}>,
+           route: object, req: IncomingMessage, res: ServerResponse) {
+            Set request headers to context meta
+            ctx.meta.userAgent = req.headers["user-agent"];
+          },
+           */
 
         /**
-					 * After call hook. You can modify the data.
-					 * @param {Context} ctx
-					 * @param {Object} route
-					 * @param {IncomingMessage} req
-					 * @param {ServerResponse} res
-					 * @param {Object} data
-					 *
-					 onAfterCall(ctx: Context, route: object, req: IncomingMessage, res: ServerResponse, data: object) {
-					// Async function which return with Promise
-					return doSomething(ctx, res, data);
-				},
-					 */
+           * After call hook. You can modify the data.
+           * @param {Context} ctx
+           * @param {Object} route
+           * @param {IncomingMessage} req
+           * @param {ServerResponse} res
+           * @param {Object} data
+           *
+           onAfterCall(ctx: Context, route: object, req: IncomingMessage, res: ServerResponse, data: object) {
+          // Async function which return with Promise
+          return doSomething(ctx, res, data);
+        },
+           */
 
         // Calling options. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Calling-options
         callingOptions: {},
@@ -121,74 +124,87 @@ const TheService: ServiceSchema = {
       options: {},
     },
   },
+})
+export default class APIService extends Service {
+  @Action({
+    visibility: 'public',
+  })
+  listAliases() {}
 
-  actions: {
-    listAliases: {
-      visibility: 'public',
-    },
-  },
+  /**
+   * Authenticate the request. It check the `Authorization` token value in the request header.
+   * Check the token value & resolve the user by the token.
+   * The resolved user will be available in `ctx.meta.user`
+   *
+   * PLEASE NOTE, IT'S JUST AN EXAMPLE IMPLEMENTATION. DO NOT USE IN PRODUCTION!
+   *
+   * @param {Context} ctx
+   * @param {any} route
+   * @param {IncomingMessage} req
+   * @returns {Promise}
+   */
+  @Method
+  async authenticate(
+    ctx: Context,
+    route: any,
+    req: IncomingMessage
+  ): Promise<any> {
+    // Read the token from header
+    const auth = req.headers.authorization;
+    if (auth && auth.startsWith('Bearer')) {
+      const token = auth.slice(7);
+      // Check the token. Tip: call a service which verify the token. E.g. `accounts.resolveToken`
+      if (token === '123456') {
+        // Returns the resolved user. It will be set to the `ctx.meta.user`
+        return {
+          id: 1,
+          name: 'John Doe',
+        };
+      } else {
+        // Invalid token
+        throw new ApiGateway.Errors.UnAuthorizedError(
+          ApiGateway.Errors.ERR_INVALID_TOKEN,
+          {
+            error: 'Invalid Token',
+          }
+        );
+      }
+    } else {
+      // No token. Throw an error or do nothing if anonymous access is allowed.
+      // Throw new E.UnAuthorizedError(E.ERR_NO_TOKEN);
+      return null;
+    }
+  }
 
-  methods: {
-    /**
-				 * Authenticate the request. It check the `Authorization` token value in the request header.
-				 * Check the token value & resolve the user by the token.
-				 * The resolved user will be available in `ctx.meta.user`
-				 *
-				 * PLEASE NOTE, IT'S JUST AN EXAMPLE IMPLEMENTATION. DO NOT USE IN PRODUCTION!
-				 *
-				 * @param {Context} ctx
-				 * @param {any} route
-				 * @param {IncomingMessage} req
-				 * @returns {Promise}
-				async authenticate = (ctx: Context, route: any, req: IncomingMessage): Promise < any >  => {
-					// Read the token from header
-					const auth = req.headers.authorization;
-					if (auth && auth.startsWith("Bearer")) {
-						const token = auth.slice(7);
-						// Check the token. Tip: call a service which verify the token. E.g. `accounts.resolveToken`
-						if (token === "123456") {
-							// Returns the resolved user. It will be set to the `ctx.meta.user`
-							return {
-								id: 1,
-								name: "John Doe",
-							};
-						} else {
-							// Invalid token
-							throw new ApiGateway.Errors.UnAuthorizedError(ApiGateway.Errors.ERR_INVALID_TOKEN, {
-								error: "Invalid Token",
-							});
-						}
-					} else {
-						// No token. Throw an error or do nothing if anonymous access is allowed.
-						// Throw new E.UnAuthorizedError(E.ERR_NO_TOKEN);
-						return null;
-					}
-				},
-				 */
-    /**
-				 * Authorize the request. Check that the authenticated user has right to access the resource.
-				 *
-				 * PLEASE NOTE, IT'S JUST AN EXAMPLE IMPLEMENTATION. DO NOT USE IN PRODUCTION!
-				 *
-				 * @param {Context} ctx
-				 * @param {Object} route
-				 * @param {IncomingMessage} req
-				 * @returns {Promise}
-				async authorize = (ctx: Context < any, {
-					user: string;
-				} > , route: Record<string, undefined>, req: IncomingMessage): Promise < any > => {
-					// Get the authenticated user.
-					const user = ctx.meta.user;
-					// It check the `auth` property in action schema.
-					// @ts-ignore
-					if (req.$action.auth === "required" && !user) {
-						throw new ApiGateway.Errors.UnAuthorizedError("NO_RIGHTS", {
-							error: "Unauthorized",
-						});
-					}
-				},
-				 */
-  },
-};
-
-export default TheService;
+  /**
+   * Authorize the request. Check that the authenticated user has right to access the resource.
+   *
+   * PLEASE NOTE, IT'S JUST AN EXAMPLE IMPLEMENTATION. DO NOT USE IN PRODUCTION!
+   *
+   * @param {Context} ctx
+   * @param {Object} route
+   * @param {IncomingMessage} req
+   * @returns {Promise}
+   */
+  @Method
+  async authorize(
+    ctx: Context<
+      any,
+      {
+        user: string;
+      }
+    >,
+    route: Record<string, undefined>,
+    // TODO: clean
+    req: any // IncomingMessage
+  ): Promise<any> {
+    // Get the authenticated user.
+    const user = ctx.meta.user;
+    // It check the `auth` property in action schema.
+    if (req.$action.auth === 'required' && !user) {
+      throw new ApiGateway.Errors.UnAuthorizedError('NO_RIGHTS', {
+        error: 'Unauthorized',
+      });
+    }
+  }
+}
