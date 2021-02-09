@@ -1,0 +1,120 @@
+#########################################################
+# Service for Moleculer API Gateway service
+#########################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  selector:
+    app: api
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: NodePort
+---
+#########################################################
+# API Gateway service
+#########################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  selector:
+    matchLabels:
+      app: api
+  replicas: 2
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: gcr.io/knawat-sea-dev/moleculer-template
+          envFrom:
+            - configMapRef:
+                name: common-env
+          env:
+            - name: SECRET_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: username
+            - name: SECRET_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysecret
+                  key: password
+            - name: SERVICES
+              value: api
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 3001
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3001
+      terminationGracePeriodSeconds: 5
+---
+#########################################################
+# Products service
+#########################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products
+spec:
+  selector:
+    matchLabels:
+      app: products
+  replicas: 2
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+        - name: products
+          image: gcr.io/knawat-sea-dev/moleculer-template
+          envFrom:
+            - configMapRef:
+                name: common-env
+          env:
+            - name: SERVICES
+              value: products
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 3001
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3001
+      terminationGracePeriodSeconds: 5
+---
+#########################################################
+# Horizontal Pod AutoScaler for API service (K8s >= v1.17)
+#########################################################
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-calc
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: calc
+  minReplicas: 2
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
