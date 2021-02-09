@@ -43,3 +43,15 @@ In the terminal, try the following commands:
 - `npm run lint`: Run ESLint
 - `npm run ci`: Run continuous test mode with watching
 - `npm test`: Run tests & generate coverage report
+
+## Kubernetes deploy
+
+-  `kubectl create secret generic mysecret --from-env-file=.secret`: Create a secret contains variable like users and passworda and connection string
+-  `kubectl create configmap common-env --from-env-file=.common-env`: Create a common variable shared by the pods
+-  `kubectl apply -f`: start the Kubernetes
+
+
+
+
+
+
