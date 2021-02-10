@@ -45,10 +45,21 @@ In the terminal, try the following commands:
 - `npm test`: Run tests & generate coverage report
 
 ## Kubernetes deploy
+We will deploy our cluster into gcloud.
 
+-  `export PROJECT_ID=knawat-moleculer-template`: To save project name (in which project in google you will deploy your cluster) as a variable on your machine
+-  `docker build -t gcr.io/${PROJECT_ID}/knawat-moleculer-template-app:v1 .`: To build the docker image of the application
+Pushing Docker image to conatiner registery
+-  `gcloud services enable containerregistry.googleapis.com`
+-  `gcloud auth configure-docker`
+-  `docker push gcr.io/${PROJECT_ID}/knawat-moleculer-template-app:v1`
+Create the cluster on gcloud
+-  `gcloud config set project $PROJECT_ID`
+-  `gcloud config set compute/zone us-west1`: you have to change zone as your project or your cluster zone
+-  `gcloud container clusters create knawat-cluster`
 -  `kubectl create secret generic mysecret --from-env-file=.secret`: Create a secret contains variable like users and passworda and connection string
 -  `kubectl create configmap common-env --from-env-file=.common-env`: Create a common variable shared by the pods
--  `kubectl apply -f`: start the Kubernetes
+-  `kubectl apply -f k8s/api-deplyment.yaml -f k8s/products-deployment.yaml -f k8s/k8s.yaml`: start the Kubernetes
 
 
 
