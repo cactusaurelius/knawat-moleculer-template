@@ -46,7 +46,6 @@ In the terminal, try the following commands:
 
 ## Kubernetes deploy
 We will deploy our cluster into gcloud.
-
 -  `export PROJECT_ID=knawat-moleculer-template`: To save project name (in which project in google you will deploy your cluster) as a variable on your machine
 -  `docker build -t gcr.io/${PROJECT_ID}/knawat-moleculer-template-app:v1 .`: To build the docker image of the application
 Pushing Docker image to conatiner registery
