@@ -1,5 +1,5 @@
 #########################################################
-# Products service
+# products service
 #########################################################
 apiVersion: apps/v1
 kind: Deployment
@@ -17,10 +17,12 @@ spec:
     spec:
       containers:
         - name: products
-          image: gcr.io/knawat-sea-dev/moleculer-template
+          image: gcr.io/__PROJECT_ID__/__PROJECT_IMAGE__
           envFrom:
             - configMapRef:
-                name: common-env
+                name: __ENV_NAME__
+            - secretRef:
+                name: __SECRET_NAME__
           env:
             - name: SERVICES
               value: products

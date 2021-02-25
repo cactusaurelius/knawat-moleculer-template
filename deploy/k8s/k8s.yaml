@@ -19,3 +19,48 @@ spec:
         target:
           type: Utilization
           averageUtilization: 50
+---
+#########################################################
+# Managed Certificate
+#########################################################
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: __CERTIFICATE_MANAGER_NAME__
+spec:
+  domains:
+    - __PROJECT_URL__
+---
+#########################################################
+# FrontendConfig
+#########################################################
+apiVersion: networking.gke.io/v1beta1
+kind: FrontendConfig
+metadata:
+  name: frontendconfig
+spec:
+  redirectToHttps:
+    enabled: true
+    responseCodeName: MOVED_PERMANENTLY_DEFAULT
+---
+#########################################################
+# ingress
+#########################################################
+apiVersion: "networking.k8s.io/v1beta1"
+kind: "Ingress"
+metadata:
+  name: "api-ingress"
+  namespace: "default"
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "__STATIC_IP_NAME__"
+    networking.gke.io/managed-certificates: "__CERTIFICATE_MANAGER_NAME__"
+    networking.gke.io/v1beta1.FrontendConfig: "frontendconfig"
+spec:
+  rules:
+    - host: __PROJECT_URL__
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: "api"
+              servicePort: 3000

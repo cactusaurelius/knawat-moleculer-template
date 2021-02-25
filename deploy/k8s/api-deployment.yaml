@@ -4,10 +4,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: api-service
+  name: api
 spec:
   selector:
-    app: api-deployment
+    app: api
   ports:
     - port: 3000
       targetPort: 3000
@@ -19,11 +19,11 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: api
 spec:
   selector:
     matchLabels:
-      app: api-service
+      app: api
   replicas: 2
   template:
     metadata:
@@ -32,24 +32,12 @@ spec:
     spec:
       containers:
         - name: api
-          image: gcr.io/knawat-sea-dev/moleculer-template
+          image: gcr.io/__PROJECT_ID__/__PROJECT_IMAGE__
           envFrom:
             - configMapRef:
-                name: common-env
+                name: __ENV_NAME__
             - secretRef:
-                name: mysecret
+                name: __SECRET_NAME__
           env:
             - name: SERVICES
               value: api
----
-#########################################################
-# Basic Ingress
-#########################################################
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: basic-ingress
-spec:
-  backend:
-    serviceName: api
-    servicePort: 3000
