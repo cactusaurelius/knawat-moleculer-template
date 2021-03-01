@@ -18,7 +18,7 @@
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --ext .ts . --fix",
     "prettier": "prettier services/*.ts utilities/**/*.ts *.ts --write",
-    "remove:web": "npm remove @types/lodash @types/supertest openapi-types supertest lodash moleculer-web & rm services/api.service.ts utilities/mixins/openapi.mixin.ts",
+    "remove:web": "npm remove @types/lodash @types/supertest openapi-types supertest lodash moleculer-web & rm services/api.service.ts utilities/mixins/openapi.mixin.ts deploy/k8s/k8s.yaml deploy/k8s/api-deployment.yaml ",
     "remove:db": "npm remove @types/mongoose moleculer-db moleculer-db-adapter-mongoose mongoose & rm utilities/models utilities/mixins/mongo.mixin.ts"
   },
   "keywords": [
@@ -55,6 +55,7 @@
     "moleculer-db": "^0.8.11",
     "moleculer-db-adapter-mongoose": "^0.8.9",
     "moleculer-web": "^0.9.1",
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.11.8",
+    "nats": "^1.4.12"
   }
 }

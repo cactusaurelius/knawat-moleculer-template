@@ -43,3 +43,24 @@ In the terminal, try the following commands:
 - `npm run lint`: Run ESLint
 - `npm run ci`: Run continuous test mode with watching
 - `npm test`: Run tests & generate coverage report
+
+## K8S SETUP
+## CREATE CLUSTER
+
+- `gcloud config set project mahmoud-test-gke`: To set the project name
+- `gcloud config set compute/zone us-central1-c`: To set the zone
+- `gcloud container clusters create sea-dev`: To create a cluster
+
+## CREATE PUBLIC IP
+
+- `gcloud compute addresses create sea-dev-ip --global`: To get a global ip address
+
+## DEPLOY THE APP
+
+- `gcloud builds submit --config=cloudbuild.yaml \`
+  `--substitutions=_PROJECT_IMAGE=$PROJECT_IMAGE,_SECRET_NAME=$SECRET_NAME,_DEPLOY_FOLDER=$DEPLOY_FOLDER,``_ENV_NAME=$ENV_NAME,_PROJECT_LOCATION=$PROJECT_LOCATION,_CLUSTER_NAME=$CLUSTER_NAME,``_BUDDY_EXECUTION_REVISION=$BUDDY_EXECUTION_REVISION .`
+  
+## CERTIFICATE MANAGEMENT
+
+- `kubectl describe managedcertificate sea-dev-mhm`: see if the certificate activated or not yet (it takes some time, around 15 mins)
+

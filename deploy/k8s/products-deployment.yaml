@@ -1,0 +1,30 @@
+#########################################################
+# products service
+#########################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-deployment
+spec:
+  selector:
+    matchLabels:
+      app: products
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: products
+    spec:
+      containers:
+        - name: products
+          image: gcr.io/__PROJECT_ID__/__PROJECT_IMAGE__
+          envFrom:
+            - configMapRef:
+                name: __ENV_NAME__
+            - secretRef:
+                name: __SECRET_NAME__
+          env:
+            - name: SERVICES
+              value: products
+---
+
