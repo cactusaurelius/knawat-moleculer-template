@@ -50,7 +50,7 @@
   "dependencies": {
     "@moleculer/lab": "^0.6.0",
     "ioredis": "^4.19.4",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moleculer": "^0.14.11",
     "moleculer-db": "^0.8.11",
     "moleculer-db-adapter-mongoose": "^0.8.9",
