@@ -12,6 +12,7 @@
     "start": "moleculer-runner --config build/moleculer.config.js",
     "cli": "moleculer connect TCP",
     "ci": "NODE_ENV=test jest --watch",
+    "postinstall": "npm i moleculer-cli -g ||",
     "test": "NODE_ENV=test jest --coverage",
     "test:integration": "npm t integration",
     "test:unit": "npm t unit",
