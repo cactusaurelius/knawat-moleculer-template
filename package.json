@@ -1,8 +1,14 @@
 {
   "name": "moleculer-knawat-template",
   "version": "0.0.0",
-  "description": "My Moleculer-based microservices project",
-  "author": "",
+  "description": "Moleculer template, By Knawat",
+  "author": "Knawat, Inc. Team",
+  "homepage": "https://github.com/knawat/knawat-moleculer-template#readme",
+  "bugs": {
+    "url": "https://github.com/knawat/knawat-moleculer-template/issues"
+  },
+  "repository": "github:knawat/knawat-moleculer-template",
+  "license": "MIT",
   "engines": {
     "node": ">= 14.x.x"
   },
@@ -22,8 +28,8 @@
     "remove:db": "npm remove @types/mongoose moleculer-db moleculer-db-adapter-mongoose mongoose & rm utilities/models utilities/mixins/mongo.mixin.ts"
   },
   "keywords": [
-    "microservices",
-    "moleculer"
+    "moleculer",
+    "knawat"
   ],
   "devDependencies": {
     "@jest/types": "^26.6.2",
