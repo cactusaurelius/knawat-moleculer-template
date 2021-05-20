@@ -1,10 +1,9 @@
-import { IncomingMessage } from 'http';
-
 import { Service, Context } from 'moleculer';
 import { Service as DService, Action, Method } from 'moleculer-decorators';
 import ApiGateway from 'moleculer-web';
 
 import { OpenApiMixin } from '../utilities/mixins';
+import { IncomingRequest } from '../utilities/types';
 
 @DService({
   name: 'api',
@@ -40,11 +39,11 @@ import { OpenApiMixin } from '../utilities/mixins';
            * Before call hook. You can check the request.
            * @param {Context} ctx
            * @param {Object} route
-           * @param {IncomingMessage} req
+           * @param {IncomingRequest} req
            * @param {ServerResponse} res
            * @param {Object} data
           onBeforeCall(ctx: Context<any,{userAgent: string}>,
-           route: object, req: IncomingMessage, res: ServerResponse) {
+           route: object, req: IncomingRequest, res: ServerResponse) {
             Set request headers to context meta
             ctx.meta.userAgent = req.headers["user-agent"];
           },
@@ -54,11 +53,11 @@ import { OpenApiMixin } from '../utilities/mixins';
            * After call hook. You can modify the data.
            * @param {Context} ctx
            * @param {Object} route
-           * @param {IncomingMessage} req
+           * @param {IncomingRequest} req
            * @param {ServerResponse} res
            * @param {Object} data
            *
-           onAfterCall(ctx: Context, route: object, req: IncomingMessage, res: ServerResponse, data: object) {
+           onAfterCall(ctx: Context, route: object, req: IncomingRequest, res: ServerResponse, data: object) {
           // Async function which return with Promise
           return doSomething(ctx, res, data);
         },
@@ -129,7 +128,7 @@ export default class APIService extends Service {
   @Action({
     visibility: 'public',
   })
-  listAliases() {}
+  // listAliases() {}
 
   /**
    * Authenticate the request. It check the `Authorization` token value in the request header.
@@ -140,14 +139,14 @@ export default class APIService extends Service {
    *
    * @param {Context} ctx
    * @param {any} route
-   * @param {IncomingMessage} req
+   * @param {IncomingRequest} req
    * @returns {Promise}
    */
   @Method
   async authenticate(
     ctx: Context,
     route: any,
-    req: IncomingMessage
+    req: IncomingRequest
   ): Promise<any> {
     // Read the token from header
     const auth = req.headers.authorization;
@@ -183,7 +182,7 @@ export default class APIService extends Service {
    *
    * @param {Context} ctx
    * @param {Object} route
-   * @param {IncomingMessage} req
+   * @param {IncomingRequest} req
    * @returns {Promise}
    */
   @Method
@@ -194,9 +193,8 @@ export default class APIService extends Service {
         user: string;
       }
     >,
-    route: Record<string, undefined>,
-    // TODO: clean
-    req: any // IncomingMessage
+    route: { [key: string]: undefined },
+    req: IncomingRequest
   ): Promise<any> {
     // Get the authenticated user.
     const user = ctx.meta.user;

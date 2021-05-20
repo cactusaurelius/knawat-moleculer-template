@@ -5,13 +5,14 @@ import MongooseAdapter from 'moleculer-db-adapter-mongoose';
 
 // Workaround to hide built in routes from auto alias
 Object.keys((DbService as Partial<ServiceSchema>).actions).map(action => {
-  ((DbService as Partial<ServiceSchema>).actions[
-    action
-  ] as ActionSchema).visibility = 'public';
+  (
+    (DbService as Partial<ServiceSchema>).actions[action] as ActionSchema
+  ).visibility = 'public';
 });
 
 export default class Connection
-  implements Partial<ServiceSchema>, ThisType<Service> {
+  implements Partial<ServiceSchema>, ThisType<Service>
+{
   private cacheCleanEventName: string;
   private collection: string;
   private schema: Partial<ServiceSchema> & ThisType<Service>;
